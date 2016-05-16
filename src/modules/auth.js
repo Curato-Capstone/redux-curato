@@ -72,8 +72,6 @@ export function signUpUser() {
             res.body.favorites = favorites;
             dispatch(userActions.setUser(res.body));
             dispatch(setIsAuthenticated(true));
-
-            dispatch(routerActions.push('/'));
         } catch (error) {
             dispatch(globalActions.setMessage('error', 'Sign Up Failed!'));
             return SubmissionError({ _error: 'You dun goofed' });
@@ -92,8 +90,6 @@ export function signInUser() {
 
             dispatch(userActions.setUser(res.body));
             dispatch(setIsAuthenticated(true));
-
-            dispatch(routerActions.push('/'));
         } catch (error) {
             dispatch(globalActions.setMessage('error', 'Sign In Failed!'));
             return SubmissionError({ _error: 'You dun goofed' });

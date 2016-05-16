@@ -2,7 +2,6 @@ import { fromJS, Map, List } from 'immutable';
 import type { Place, Preferences, User, Action } from '../../types/index';
 import request from 'superagent-bluebird-promise';
 
-import { routerActions } from 'react-router-redux';
 import * as globalActions from './global';
 import * as authActions from './auth';
 

@@ -2,7 +2,6 @@ import { fromJS, Map, List } from 'immutable';
 import type { Place, Action } from '../..flow/types';
 import request from 'superagent-bluebird-promise';
 
-import { routerActions } from 'react-router-redux';
 import * as globalActions from './global';
 
 // Actions
@@ -104,7 +103,6 @@ export function getSuggestions({ random = false } = {}) {
                 });
 
             dispatch(setSuggestions(res.body));
-            dispatch(routerActions.push('/suggestions'));
         } catch (error) {
             dispatch(globalActions.setMessage('error', 'Something went wrong :( '));
         }
@@ -127,7 +125,6 @@ export function getSuggestionsNoAccount() {
                 });
 
             dispatch(setSuggestions(res.body));
-            dispatch(routerActions.push('/intro/suggestions'));
         } catch (error) {
             dispatch(globalActions.setMessage('error', 'Something went wrong :( '));
         }
