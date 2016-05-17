@@ -114,14 +114,14 @@ const initialState = Map({
     favorites   : List(),
     id          : '123456789',
     preferences : Map({
-        price         : 3,
-        culture       : 1,
-        food          : 4,
-        outdoors      : 3,
-        entertainment : 2,
-        relaxation    : 5,
-        shopping      : 3,
-        sports        : 2
+        art           : 1,
+        history       : 1,
+        food          : 1,
+        outdoors      : 1,
+        entertainment : 1,
+        relaxation    : 1,
+        shopping      : 1,
+        sports        : 1
     })
 });
 
@@ -192,31 +192,7 @@ function preferencesReducer(state: Map<string, number>, action: Action): Map<str
 // Thunks
 // -----------------------------------
 const baseURL = 'http://ec2-54-186-80-121.us-west-2.compute.amazonaws.com:8000';
-const sleep = (ms) => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(), ms)
-    });
-}
 
-const user = {
-    email       : 'mister-pie@hotmail.com',
-    name        : 'Mister Pie',
-    age         : 25,
-    gender      : 'male',
-    ethnicity   : 'white',
-    favorites   : [],
-    id          : '123456789',
-    preferences : {
-        price         : 3,
-        culture       : 1,
-        food          : 4,
-        outdoors      : 3,
-        entertainment : 2,
-        relaxation    : 5,
-        shopping      : 3,
-        sports        : 2
-    }
-};
 // called when page is first loaded
 export function getUserData() {
     return async (dispatch) => {
@@ -224,10 +200,6 @@ export function getUserData() {
             dispatch(authActions.setIsAuthenticating(true));
 
             const res = await request.get(`${baseURL}/user`);
-            // const res = {};
-            // res.body = await new Promise((resolve) => {
-            //     setTimeout(() => resolve(user), 2000)
-            // });
 
             dispatch(setUser(res.body));
             dispatch(authActions.setIsAuthenticated(true));
@@ -245,8 +217,9 @@ export function updateAccount() {
             dispatch(globalActions.setLoading(true));
             const accountValues = getState().getIn(['form', 'AccountForm', 'values']).toJS();
 
-            // console.log(accountValues);
-            await sleep(1200);
+            request
+                .put(`${baseURL}/user/`)
+                .send(accountValues);
 
             dispatch(globalActions.setMessage('success', 'Successfully Updated Account!'));
         } catch (error) {
@@ -264,11 +237,9 @@ export function updatePreferences() {
             dispatch(globalActions.setLoading(true));
             const preferences = getState().getIn(['user', 'preferences']).toJS();
 
-            // await request
-            //     .put(`${baseURL}/user/`)
-            //     .send({ preferences });
-
-            await sleep(1200);
+            await request
+                .put(`${baseURL}/user/`)
+                .send({ preferences });
 
             dispatch(globalActions.setMessage('success', 'Successfully Updated Preferences!'));
         } catch (error) {
@@ -285,10 +256,9 @@ export function addFavoriteThunk(place) {
         try {
             dispatch(globalActions.setLoading(true));
 
-            // await request
-            //     .post(`${baseURL}/place/favorites/add`)
-            //     .send({ id: place.id });
-            await sleep(300);
+            await request
+                .post(`${baseURL}/place/favorites/add`)
+                .send({ id: place.id });
 
             dispatch(addFavorite(place));
         } catch (error) {
@@ -305,11 +275,9 @@ export function removeFavoriteThunk(place) {
         try {
             dispatch(globalActions.setLoading(true));
 
-            // await request
-            //     .post(`${baseURL}/place/favorites/remove`)
-            //     .send({ id: place.id });
-
-            await sleep(300);
+            await request
+                .post(`${baseURL}/place/favorites/remove`)
+                .send({ id: place.id });
 
             const favorites = getState().getIn(['user', 'favorites']).toJS();
 

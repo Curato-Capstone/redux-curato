@@ -6,7 +6,8 @@ import { place1, place2 } from '../../mock_data';
 describe('suggestions reducer', () => {
     it('should return the initial state', () => {
         const initialState = Map({
-            suggestions : List()
+            suggestions : List(),
+            searchText  : ''
         });
 
         expect(reducer(undefined, {})).to.deep.equal(initialState);
@@ -14,11 +15,13 @@ describe('suggestions reducer', () => {
 
     it('should handle SET_SUGGESTION', () => {
         const initialState = Map({
-            suggestions : List()
+            suggestions : List(),
+            searchText  : ''
         });
 
         const expectedState = Map({
-            suggestions : fromJS([place1, place2])
+            suggestions : fromJS([place1, place2]),
+            searchText  : ''
         });
 
         expect(
@@ -31,11 +34,13 @@ describe('suggestions reducer', () => {
 
     it('should handle ADD_SUGGESTION', () => {
         const initialState = Map({
-            suggestions : List()
+            suggestions : List(),
+            searchText  : ''
         });
 
         const expectedState = Map({
-            suggestions : fromJS([place1])
+            suggestions : fromJS([place1]),
+            searchText  : ''
         });
 
         expect(
@@ -48,11 +53,13 @@ describe('suggestions reducer', () => {
 
     it('should handle REMOVE_SUGGESTION', () => {
         const initialState = Map({
-            suggestions : List([place1])
+            suggestions : List([place1]),
+            searchText  : ''
         });
 
         const expectedState = Map({
-            suggestions : List()
+            suggestions : List(),
+            searchText  : ''
         });
 
         expect(
@@ -65,11 +72,13 @@ describe('suggestions reducer', () => {
 
     it('should handle CLEAR_SUGGESTIONS', () => {
         const initialState = Map({
-            suggestions : List([place1, place2])
+            suggestions : List([place1, place2]),
+            searchText  : ''
         });
 
         const expectedState = Map({
-            suggestions : List()
+            suggestions : List(),
+            searchText  : '' 
         });
 
         expect(

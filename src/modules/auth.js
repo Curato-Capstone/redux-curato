@@ -3,7 +3,6 @@ import { Map } from 'immutable';
 import type { Action } from '../../flow/types';
 import request from 'superagent-bluebird-promise';
 
-import { routerActions } from 'react-router-redux';
 import * as globalActions from './global';
 import * as userActions from './user';
 
@@ -11,6 +10,7 @@ import * as userActions from './user';
 // -----------------------------------
 export const SET_IS_AUTHENTICATING = 'SET_IS_AUTHENTICATING';
 export const SET_IS_AUTHENTICATED = 'SET_IS_AUTHENTICATED';
+export const SET_TOKEN = 'SET_TOKEN';
 
 
 // Action Creators
@@ -29,12 +29,20 @@ export function setIsAuthenticated(authenticated: bool) {
     };
 }
 
+export function setToken(token) {
+    return {
+        type: SET_TOKEN,
+        token
+    };
+}
+
 
 // Reducers
 // -----------------------------------
 const initialState = Map({
     isAuthenticating: false,
-    isAuthenticated: false
+    isAuthenticated: false,
+    token: ''
 });
 
 type State = Map<string, any>
@@ -45,6 +53,9 @@ export default function reducer(state: State = initialState, action: Action): St
 
         case SET_IS_AUTHENTICATED:
             return state.set('isAuthenticated', action.authenticated);
+
+        case SET_TOKEN:
+            return state.set('token', action.token);
 
         default:
             return state;
@@ -60,16 +71,21 @@ import { SubmissionError } from 'redux-form';
 export function signUpUser() {
     return async (dispatch: () => void, getState: () => Object) => {
         try {
+            // get user sign up values
             const preferences = getState().getIn(['user', 'preferences']).toJS();
             const formValues = getState().getIn(['form', 'SignUpForm', 'values']).toJS();
             const favorites = getState().getIn(['user', 'favorites']).toJS();
 
-            const user = { ...formValues, preferences };
+            // construct users
+            const user = { ...formValues, preferences, favorites };
 
             const res = await request
                 .post(`${baseURL}/user/signup`)
                 .send(user);
-            res.body.favorites = favorites;
+
+            // localStorage.setItem('accessToken', res.headers)
+
+            // dispatch(setToken(res.headers))
             dispatch(userActions.setUser(res.body));
             dispatch(setIsAuthenticated(true));
         } catch (error) {
@@ -88,6 +104,9 @@ export function signInUser() {
                 .post(`${baseURL}/user/signin`)
                 .send(loginCredentials);
 
+            // localStorage.setItem('accessToken', res.headers)
+
+            // dispatch(setToken(res.headers))
             dispatch(userActions.setUser(res.body));
             dispatch(setIsAuthenticated(true));
         } catch (error) {

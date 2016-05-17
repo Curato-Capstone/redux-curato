@@ -47,10 +47,10 @@ export const place2 = {
 };
 
 export const preferences = Map({
-    price         : 3,
-    culture       : 2,
+    art           : 3,
+    history       : 2,
     food          : 5,
-    outdoors       : 2,
+    outdoors      : 2,
     entertainment : 1,
     relaxation    : 3,
     shopping      : 4,
@@ -72,8 +72,7 @@ export const yesUserState = Map({
     name        : 'Brandon Barron',
     age         : 22,
     gender      : 'Male',
-    ethnicity   : 'White',
-    favorites   : List([place1, place2]),
+    favorites   : List(['1234']),
     preferences
 });
 
@@ -82,7 +81,6 @@ export const user1 = Map({
     name        : 'Brandon Barron',
     age         : 22,
     gender      : 'Male',
-    ethnicity   : 'White',
-    favorites   : List([place1, place2]),
+    favorites   : List(['1234, 12424dsaf']),
     preferences
 });
